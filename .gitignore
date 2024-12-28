@@ -1,5 +1,6 @@
-# venv folder
-first_api/*
+# venv
+first_api
 
-# cache
-__pycache__/*
+# cached data
+*/__pycache__
+__pycache__

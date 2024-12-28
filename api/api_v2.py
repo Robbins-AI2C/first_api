@@ -19,6 +19,7 @@ app = FastAPI()
 origins = [
     "http://localhost:8501", # Frontend
     "http://localhost:8001", # reverse_text microservice
+    "http://localhost:8002", # google_search microservice
     # Add more origins here
 ]
 
@@ -35,16 +36,8 @@ app.add_middleware(
 def root():
     return {"message": "Hello World"}
 
-@app.post("/space")
-def space():
-    return {"message": "Let's go to the moon!"}
-
-@app.get("/space")
-def space():
-    return {"message": "Let's go to the moon!"}
-
-@app.post("/search", response_model=SearchResults)
-def process_google_search(input_data: SearchInput):
+@app.post("/reverse")
+def reverse_text(input_data: SearchInput):
     """
     Reach out to reverse text function
     """
@@ -57,4 +50,13 @@ def process_google_search(input_data: SearchInput):
     else:
         return {"error": "microservice is down"}
 
-
+@app.post("/search")
+def process_google_search(input_data: SearchInput):
+    google_search_microservice_url = "http://localhost:8002/search"
+    response = requests.post(google_search_microservice_url, json={"text": input_data.text})
+    
+    if response.status_code == 200:
+        data = response.json()
+        return data
+    else:
+        return {"error": "microservice is down"}
