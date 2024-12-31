@@ -3,7 +3,7 @@
 # This is the Dockerfile for a frontend application running Streamlit
 
 # Create the base image (common are Ubuntu or Python)
-FROM python:3.12
+FROM python:3.12-slim
 
 # Create the working directory inside the container
 WORKDIR /app
