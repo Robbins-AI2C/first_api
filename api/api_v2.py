@@ -36,20 +36,6 @@ app.add_middleware(
 def root():
     return {"message": "Hello World"}
 
-@app.post("/reverse")
-def reverse_text(input_data: SearchInput):
-    """
-    Reach out to reverse text function
-    """
-    reverse_text_function_url = "http://localhost:8001/reverse"
-    response = requests.post(reverse_text_function_url, json={"text": input_data.text})
-    
-    if response.status_code == 200:
-        reversed_text = response.json().get("reversed_text")
-        return {"reversed_text": reversed_text}
-    else:
-        return {"error": "microservice is down"}
-
 @app.post("/search")
 def process_google_search(input_data: SearchInput):
     google_search_microservice_url = "http://localhost:8002/search"
